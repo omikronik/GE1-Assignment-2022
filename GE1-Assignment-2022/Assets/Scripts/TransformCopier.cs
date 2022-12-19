@@ -6,6 +6,7 @@ public class TransformCopier : MonoBehaviour
 {
 
     public Transform Target;
+    public Transform Home;
 
     // Start is called before the first frame update
     void Start()
@@ -19,6 +20,7 @@ public class TransformCopier : MonoBehaviour
     void Update()
     {
         transform.localRotation = Quaternion.Euler(90f, 0f, 0f);
+        //transform.localposition;
         //this.transform.position = target.transform.position;
         //this.transform.position = this.transform.parent.position ;
         //this.transform.rotation = this.transform.parent.rotation;

@@ -12,7 +12,6 @@
  * that didnt feel like I was learning anything or doing any code.
  */
 
-
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
@@ -20,12 +19,13 @@ using UnityEngine;
 
 public class inverse_kinematics : MonoBehaviour
 {
-    public int ChainLen = 2;
+    public int ChainLen = 4;
 
     public Transform Target;
+    public Transform Pole;
 
     // how many solver iterations to run per update
-    public int Iterations;
+    public int Iterations = 10;
 
     // distance at which solver stops
     public float SolveDelta = 0.001f;
@@ -39,6 +39,10 @@ public class inverse_kinematics : MonoBehaviour
     protected float[] BonesLength;
     protected Transform[] Bones;
     protected Vector3[] Positions;
+    protected Vector3[] StartDirectionSucc;
+    protected Quaternion[] StartRotationBone;
+    protected Quaternion StartRotationTarget;
+    protected Quaternion StartRotationRoot;
 
 
     // Gizmos to help visualise how this works
@@ -68,20 +72,36 @@ public class inverse_kinematics : MonoBehaviour
         Bones = new Transform[ChainLen + 1];
         Positions = new Vector3[ChainLen + 1];
         BonesLength = new float[ChainLen];
-        CompleteLength = 0f;
+        StartDirectionSucc = new Vector3[ChainLen + 1];
+        StartRotationBone = new Quaternion[ChainLen + 1];
 
+        // Init fields
+        if (Target == null)
+        {
+            Target = new GameObject(gameObject.name + " Target").transform;
+            Target.position = transform.position;
+        }
+        StartRotationTarget = Target.rotation;
+        CompleteLength = 0;
+
+        // Init data
         var current = transform;
         for (var i = Bones.Length - 1; i >= 0; i--)
         {
             Bones[i] = current;
+            StartRotationBone[i] = current.rotation;
 
             // Differentiate between leaf bone or mid bone
             // last bone will hit this it has no length
             if (i == Bones.Length - 1)
             {
+                // leaf
+                StartDirectionSucc[i] = Target.position - current.position;
             }
             else
             {
+                //mid bones
+                StartDirectionSucc[i] = Bones[i + 1].position - current.position;
                 BonesLength[i] = (Bones[i + 1].position - current.position).magnitude;
                 CompleteLength += BonesLength[i];
             }
@@ -110,7 +130,7 @@ public class inverse_kinematics : MonoBehaviour
         }
 
         // Get position
-        // Fabrik AK algorithm requires getting every position,
+        // Fabrik IK algorithm requires getting every position,
         // doing calculations, and then updating the nodes.
         // so no references and no computation on bones directly
         for (int i = 0; i < Bones.Length; i++)
@@ -118,6 +138,8 @@ public class inverse_kinematics : MonoBehaviour
             Positions[i] = Bones[i].position;
         }
 
+        var RootRot = (Bones[0].parent != null) ? Bones[0].parent.rotation : Quaternion.identity;
+        var RootRotDiff = RootRot * Quaternion.Inverse(StartRotationRoot);    
 
         // Actual calculations
         // Check if position 0 is reachable
@@ -136,6 +158,11 @@ public class inverse_kinematics : MonoBehaviour
         }
         else
         {
+            for (int i = 0; i < Positions.Length - 1; i++)
+            {
+                Positions[i + 1] = Vector3.Lerp(Positions[i + 1], Positions[i] + RootRotDiff * StartDirectionSucc[i], SnapStrength);
+            }
+
             for (int iteration = 0; iteration < Iterations; iteration++)
             {
                 // Work backwards
@@ -163,6 +190,20 @@ public class inverse_kinematics : MonoBehaviour
                 {
                     break;
                 }
+            }
+        }
+
+        // weight towards Pole transform.
+        // forces bend towards desired point
+        if (Pole != null)
+        {
+            for (int i = 1; i  < Positions.Length - 1; i++)
+            {
+                var plane = new Plane(Positions[i + 1] - Positions[i - 1], Positions[i - 1]);
+                var projectedPole = plane.ClosestPointOnPlane(Pole.position);
+                var projectedBone = plane.ClosestPointOnPlane(Positions[i]);
+                var angle = Vector3.SignedAngle(projectedBone - Positions[i + 1], projectedPole - Positions[i - 1], plane.normal);
+                Positions[i] = Quaternion.AngleAxis(angle, plane.normal) * (Positions[i] - Positions[i - 1]) + Positions[i - 1];
             }
         }
 
