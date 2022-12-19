@@ -1,3 +1,17 @@
+/*
+ * 
+ * HEADS UP
+ * 
+ * I FOLLOWED THIS YOUTUBE TUTORIAL ON HOW TO IMPLEMENT IK FOR MY USE CASE
+ * 
+ * this is an algorithm that would take a bonkers amount of self studying to
+ * come up with my own implementation. I learned a lot from this explanation.
+ * https://www.youtube.com/watch?v=qqOAzn05fvk
+ * 
+ * I could have just used the unity built in animation rigging IK solution but
+ * that didnt feel like I was learning anything or doing any code.
+ */
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
