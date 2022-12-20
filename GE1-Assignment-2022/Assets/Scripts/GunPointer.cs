@@ -5,7 +5,7 @@ using UnityEngine.XR;
 
 public class GunPointer : MonoBehaviour
 {
-    public GameObject RargetPoint;
+    public GameObject TargetPoint;
     public LayerMask LM;
 
     // Start is called before the first frame update

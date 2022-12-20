@@ -10,14 +10,16 @@ public class TransformCopier : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        transform.SetParent(Target);
-        transform.localPosition = Vector3.zero;
-        transform.localRotation = Quaternion.identity;
+        transform.SetParent(Target, false);
     }
 
     // Update is called once per frame
     void Update()
     {
+        //transform.rotation = Target.rotation;
+        transform.LookAt(Target);
+
+        //transform.position = Target.position;
         //transform.localRotation = Quaternion.Euler(90f, 0f, 0f);
         //transform.localposition;
         //this.transform.position = target.transform.position;
