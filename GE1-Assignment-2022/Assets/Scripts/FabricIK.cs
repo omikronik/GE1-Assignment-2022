@@ -19,37 +19,30 @@ using UnityEngine;
 
 public class FabricIK : MonoBehaviour
 {
-    /// Chain length of bones
+    // Chain length of bones
     public int ChainLength = 2;
 
-    /// <summary>
-    /// Target the chain should bent to
-    /// </summary>
+    // Target is the thing i want to point at
+    // Pole is a point that influences the bend of the IK chain like a snag
     public Transform Target;
     public Transform Pole;
 
-    /// <summary>
-    /// Solver iterations per update
-    /// </summary>
+    // How many iterations to do
     [Header("Solver Parameters")]
     public int Iterations = 10;
 
-    /// <summary>
-    /// Distance when the solver stops
-    /// </summary>
+    // Distance when the solver stops trying to point
     public float Delta = 0.001f;
 
-    /// <summary>
     /// Strength of going back to the start position.
-    /// </summary>
     [Range(0, 1)]
     public float SnapBackStrength = 1f;
 
 
     protected float[] BonesLength; //Target to Origin
-    protected float CompleteLength;
-    protected Transform[] Bones;
-    protected Vector3[] Positions;
+    protected float CompleteLength; // complete length
+    protected Transform[] Bones; // list of bone transforms
+    protected Vector3[] Positions; // positions of bones that will be used to precalculate then apply
     protected Vector3[] StartDirectionSucc;
     protected Quaternion[] StartRotationBone;
     protected Quaternion StartRotationTarget;
@@ -206,6 +199,8 @@ public class FabricIK : MonoBehaviour
         }
     }
 
+
+    // ------------------- Helper functions ------------------------
     private Vector3 GetPositionRootSpace(Transform current)
     {
         if (Root == null)

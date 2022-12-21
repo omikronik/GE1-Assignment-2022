@@ -290,7 +290,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b7988e14735e436488143bf1d6647561, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Target: {fileID: 1602150993}
+  Target: {fileID: 565630354}
 --- !u!199 &474026400
 ParticleSystemRenderer:
   serializedVersion: 6
@@ -6495,7 +6495,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a0c7d0c3fc6dd85449127cfcc750698d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Target: {fileID: 0}
+  Target: {fileID: 565630354}
+  WaterJet: {fileID: 1602150996}
+  WaterSpray: {fileID: 474026401}
 --- !u!1001 &859864394
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7216,15 +7218,15 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1602150992}
-  m_LocalRotation: {x: -0.32810542, y: 0.6130411, z: 0.31027386, w: 0.6482728}
-  m_LocalPosition: {x: -0.000000016909906, y: -0.000000114087015, z: 4.031636e-15}
-  m_LocalScale: {x: 0.13, y: 0.13, z: 0.13}
+  m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0.57, y: 0.26464286, z: 0.2646426}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 474026398}
   m_Father: {fileID: 1631784528}
   m_RootOrder: -1
-  m_LocalEulerAnglesHint: {x: -53.69, y: 86.8, z: 0}
+  m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
 --- !u!114 &1602150994
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7237,7 +7239,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b7988e14735e436488143bf1d6647561, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Target: {fileID: 1631784528}
+  Target: {fileID: 565630354}
 --- !u!199 &1602150995
 ParticleSystemRenderer:
   serializedVersion: 6
@@ -7383,8 +7385,8 @@ ParticleSystem:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-  moveWithTransform: 1
-  moveWithCustomTransform: {fileID: 0}
+  moveWithTransform: 2
+  moveWithCustomTransform: {fileID: 1631784528}
   scalingMode: 1
   randomSeed: 0
   InitialModule:

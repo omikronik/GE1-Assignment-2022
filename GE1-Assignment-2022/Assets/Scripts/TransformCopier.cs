@@ -15,7 +15,7 @@ public class TransformCopier : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        transform.LookAt(Target, this.transform.parent.forward);
+        transform.LookAt(Target.transform, this.transform.parent.forward);
         this.transform.position = this.transform.parent.position ;
     }
 }
