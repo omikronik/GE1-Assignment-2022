@@ -394,7 +394,7 @@ Transform:
   - {fileID: 6531862967757038188}
   - {fileID: 7903969668630285422}
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
 --- !u!33 &7752828772643959504
 MeshFilter:
@@ -471,6 +471,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a04ae476d2c25eb42a077b5ff1782989, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maxWaterLevel: 5
+  startWaterLevel: 0
+  waterLevel: 0
 --- !u!1 &6531862967756553804
 GameObject:
   m_ObjectHideFlags: 0
