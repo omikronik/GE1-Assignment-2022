@@ -7,6 +7,7 @@ public class GameMaster : MonoBehaviour
 {
     public GameObject doggo;
     public GameObject plantPrefab;
+    public Camera camera;
     public List<GameObject> plants;
     public int playerScore = 0;
 
@@ -41,7 +42,7 @@ public class GameMaster : MonoBehaviour
 
             if (!isTooClose)
             {
-                GameObject plant = Instantiate(plantPrefab, transform.position + new Vector3(randomPos.x, -0.5f, randomPos.z), Quaternion.Euler(-90.0f, 0, 0));
+                GameObject plant = Instantiate(plantPrefab, transform.position + new Vector3(randomPos.x, -0.25f, randomPos.z), Quaternion.Euler(-90.0f, 0, 0));
                 plants.Add(plant);
             }
 
@@ -50,40 +51,40 @@ public class GameMaster : MonoBehaviour
         }
     }
 
-    IEnumerator CheckHealthValues()
-    {
-        while (true)
-        {
-            if (plants.Count != 0)
-            {
-                foreach (GameObject plant in plants)
-                {
-                    PlantBehaviour plantBehaviour = plant.GetComponent<PlantBehaviour>();
-
-                    if (plantBehaviour.GetWaterLevel() >= plantBehaviour.maxWaterLevel)
-                    {
-                        Destroy(plant);
-                        playerScore += 1;
-                        break;
-                    }
-                }
-
-            }
-
-
-            yield return new WaitForSeconds(0.5f);
-        }
-    }
-
     void Start()
     {
         StartCoroutine(SpawnPlants());
-        StartCoroutine(CheckHealthValues());
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        /*
+        if (plants.Count != 0)
+        {
+            foreach (GameObject p in plants)
+            {
+                PlantBehaviour plantBehaviour = plant.GetComponent<PlantBehaviour>();
+
+                if (plantBehaviour.GetWaterLevel() >= plantBehaviour.maxWaterLevel)
+                {
+                    //
+                    //      --- EXTREMELY UNSAFE BUT break; before reading next val
+                    //
+                    Destroy(plant);
+                    playerScore += 1;
+                }
+            }
+
+        }*/
+
+        GameObject plant = plants.Find(p => p.GetComponent<PlantBehaviour>().GetWaterLevel() >= 5);
+
+        if (plant != null)
+        {
+            playerScore += 1;
+            Destroy(plant);
+            plants.Remove(plant);
+        }
     }
 }
