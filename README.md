@@ -5,7 +5,7 @@ Name: Roboth dog thing that waters plants
 Student Number: C19307843
 
 Video:
-[![YouTube](https://www.youtube.com/watch?v=0aEFllZMBcQ)]
+[![YouTube](https://img.youtube.com/vi/0aEFllZMBcQ/default.jpg)](https://www.youtube.com/watch?v=0aEFllZMBcQ)]
 
 apologies as this is the best the Pico screen record functionality can do...
 
